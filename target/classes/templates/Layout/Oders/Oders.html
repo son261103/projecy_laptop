@@ -1,0 +1,49 @@
+    <!DOCTYPE html>
+    <html lang="en"
+          xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="~{Layout/Index.html}"
+    >
+    <head>
+        <meta charset="UTF-8">
+        <title>Danh sách đơn hàng</title>
+    </head>
+    <body>
+    <div layout:fragment="content">
+        <h1>Danh sách đơn hàng</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Mã đơn hàng</th>
+                <th scope="col">Ngày đặt hàng</th>
+                <th scope="col">Khách hàng</th>
+                <th scope="col">Tổng tiền</th>
+                <th scope="col">Ghi chú</th>
+                <th scope="col">Tên người nhận</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Điện thoại</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.idorders}"></td>
+                <td th:text="${#temporals.format(order.ordersDate, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${order.customerName}"></td> <!-- Giả sử 'customer' là một đối tượng Customer trong đơn hàng -->
+                <td th:text="${order.totalMoney}"></td>
+                <td th:text="${order.notes}"></td>
+                <td th:text="${order.nameReciver}"></td>
+                <td th:text="${order.address}"></td>
+                <td th:text="${order.phone}"></td>
+                <td>
+                    <a th:href="@{'/edit_order/' + ${order.id} + '/' + ${order.idCustomer.id}}" class="btn btn-primary">Chỉnh sửa</a>
+
+                    <!-- Thêm các nút xóa và thao tác khác nếu cần -->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </body>
+    </html>

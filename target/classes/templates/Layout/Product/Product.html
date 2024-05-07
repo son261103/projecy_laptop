@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/Index.html}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sản phẩm</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Danh sách sản phẩm</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">ID Category</th>
+            <th scope="col">Tên</th>
+            <th scope="col">Ghi chú</th>
+            <th scope="col">Hình ảnh</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Ngày tạo</th>
+            <th scope="col">Ngày cập nhật</th>
+            <th scope="col">Người tạo</th>
+            <th scope="col">Người cập nhật</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.idcategory}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.notes}"></td>
+            <td>
+                <img th:src="@{${product.image}}" alt="Product Image" class="img-fluid" style="width: 80px; height: 80px;">
+            </td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.quantity}"></td>
+            <td th:text="${product.createdDate}"></td>
+            <td th:text="${product.updatedDate}"></td>
+            <td th:text="${product.createdBy}"></td>
+            <td th:text="${product.updatedBy}"></td>
+            <td th:text="${product.isActive ? 'Active' : 'Inactive'}"></td>
+            <td><a th:href="@{/add_product}">Thêm</a></td>
+            <td>
+                <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn btn-primary">Chỉnh sửa</a>
+                <!-- Thêm các nút xóa và thao tác khác nếu cần -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

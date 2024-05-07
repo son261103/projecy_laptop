@@ -1,0 +1,54 @@
+    <!DOCTYPE html>
+    <html lang="en"
+          xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="~{Layout/Index.html}"
+    >
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Customer</title>
+    </head>
+    <body>
+    <div layout:fragment="content">
+        <div>
+            <h1 th:text="${'Xin chào '}"></h1>
+        </div>
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">USERNAME</th>
+                <th scope="col">NAME</th>
+                <th scope="col">ADDRESS</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">PHONE</th>
+                <th scope="col">CREATED_DATE</th>
+                <th scope="col">ISACTIVE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+                <th th:text="${customer.id != null ? customer.id : ''}"></th>
+                <th th:text="${customer.name}"></th>
+                <th th:text="${customer.username}"></th>
+                <th th:text="${customer.address}"></th>
+                <th th:text="${customer.email}"></th>
+                <th th:text="${customer.phone}"></th>
+                <th th:text="${customer.createdDate}"></th>
+                <td th:text="${customer.isactive} ? 'Active' : 'Inactive'"></td>
+                <th> <a th:href="@{/crud_customer}">Thêm</a></th>
+                <!-- Add edit and delete buttons -->
+                <td>
+                    <!-- Edit link -->
+    <!--                <a th:href="@{'/edit_customer/' + ${customer.id}}">Edit</a>-->
+                    <a th:href="@{'/edit_customer/' + ${customer.id}}">Edit</a>
+                    <a th:href="@{'/add_orders/' + ${customer.id}}">Thêm đơn hàng</a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+    </body>
+    </html>

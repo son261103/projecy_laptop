@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Transport Method</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h2>Edit Transport Method</h2>
+    <form action="#" th:action="@{/edit_transport/{id}(id=${transportMethodDTO.id})}" th:object="${transportMethodDTO}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        </div>
+        <div class="mb-3">
+            <label for="notes" class="form-label">Notes:</label>
+            <input type="text" class="form-control" id="notes" th:field="*{notes}" required>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="isActive" th:field="*{isactive}">
+            <label class="form-check-label" for="isActive">Is Active?</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-danger" onclick="deleteTransport()">Delete</button>
+    </form>
+</div>
+<script th:inline="javascript">
+    function deleteTransport() {
+        var transportId = /*[[${transportMethodDTO.id}]]*/ null;
+
+        // Gửi yêu cầu xóa đến server
+        fetch('/delete_transport/' + transportId, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Nếu xóa thành công, chuyển hướng hoặc cập nhật giao diện người dùng
+                    window.location.href = '/show_transport';
+                } else {
+                    // Xử lý trường hợp xóa không thành công
+                    alert('Failed to delete product');
+                }
+            })
+            .catch(error => {
+                // Xử lý lỗi
+                console.error('Error:', error);
+                alert('An error occurred while deleting product');
+            });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

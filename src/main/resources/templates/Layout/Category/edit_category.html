@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Category</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Edit Category</h2>
+    <form action="#" th:action="@{'/edit/' + ${categoryDTO.id}}" th:object="${categoryDTO}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="idparent">IdParent:</label>
+            <input type="text" class="form-control" id="idparent" th:field="*{idparent}" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes:</label>
+            <input type="text" class="form-control" id="notes" th:field="*{notes}" required>
+        </div>
+        <div class="form-group">
+            <label for="file">Icon:</label>
+            <input type="file" class="form-control" id="file" name="file" accept="image/*">
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="isActive" th:field="*{isactive}">
+            <label class="form-check-label" for="isActive">Is Active?</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-danger" onclick="deleteCategory()">Delete</button>
+    </form>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script th:inline="javascript">
+    function deleteCategory() {
+        var categoryId = /*[[${categoryDTO.id}]]*/ null;
+
+        // Gửi yêu cầu xóa đến server
+        fetch('/delete_category/' + categoryId, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Nếu xóa thành công, chuyển hướng hoặc cập nhật giao diện người dùng
+                    window.location.href = '/show_category';
+                } else {
+                    // Xử lý trường hợp xóa không thành công
+                    alert('Failed to delete category');
+                }
+            })
+            .catch(error => {
+                // Xử lý lỗi
+                console.error('Error:', error);
+                alert('An error occurred while deleting category');
+            });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/Index}">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Product</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content" >
+<div class="container">
+    <h2>Edit Product</h2>
+    <form action="#" th:action="@{'/product/edit/' + ${productDTO.id}}" th:object="${productDTO}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes:</label>
+            <input type="text" class="form-control" id="notes" th:field="*{notes}" required>
+        </div>
+        <div class="form-group">
+            <label for="file">Image:</label>
+            <input type="file" class="form-control" id="file" name="file" accept="image/*">
+        </div>
+        <div class="form-group">
+            <label for="categoryId">Category:</label>
+            <select class="form-control" id="categoryId" th:field="*{idcategory}" required>
+                <option value="">-- Select category --</option>
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                <!-- Add options dynamically here based on categories -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="price" th:field="*{price}" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" class="form-control" id="quantity" th:field="*{quantity}" required>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="isActive" th:field="*{isActive}">
+            <label class="form-check-label" for="isActive">Is Active?</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-danger" onclick="deleteProduct()">Delete</button>
+    </form>
+</div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script th:inline="javascript">
+    function deleteProduct() {
+        var productId = /*[[${productDTO.id}]]*/ null;
+
+        // Gửi yêu cầu xóa đến server
+        fetch('/delete_product/' + productId, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Nếu xóa thành công, chuyển hướng hoặc cập nhật giao diện người dùng
+                    window.location.href = '/show_product';
+                } else {
+                    // Xử lý trường hợp xóa không thành công
+                    alert('Failed to delete product');
+                }
+            })
+            .catch(error => {
+                // Xử lý lỗi
+                console.error('Error:', error);
+                alert('An error occurred while deleting product');
+            });
+    }
+</script>
+
+</body>
+</html>
